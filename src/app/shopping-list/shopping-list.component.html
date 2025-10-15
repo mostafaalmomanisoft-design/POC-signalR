@@ -1,0 +1,30 @@
+<div class="container">
+  <h2>Realtime Shopping List</h2>
+
+  <form (ngSubmit)="editingId ? saveEdit() : add()" [formGroup]="form">
+    <div class="form-row">
+      <input formControlName="name" placeholder="Item name" required />
+      <input type="number" formControlName="quantity" min="1" placeholder="Qty" />
+      <button type="submit" class="primary">
+        {{ editingId ? 'Save' : 'Add' }}
+      </button>
+      <button type="button" class="secondary" (click)="cancelEdit()" *ngIf="editingId">
+        Cancel
+      </button>
+    </div>
+  </form>
+
+  <ul>
+    <li *ngFor="let item of items$ | async" [class.done]="item.done">
+      <label class="item-label">
+        <input type="checkbox" [checked]="item.done" (change)="toggleDone(item)" />
+        <span>{{ item.name }} ({{ item.quantity }})</span>
+      </label>
+
+      <div class="actions">
+        <button class="edit" (click)="startEdit(item)">Edit</button>
+        <button class="delete" (click)="delete(item.id)">Delete</button>
+      </div>
+    </li>
+  </ul>
+</div>

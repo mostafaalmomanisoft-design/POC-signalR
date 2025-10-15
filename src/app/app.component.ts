@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
+import { ShoppingListComponent } from './shopping-list/shopping-list.component';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-root',
-  imports: [],
+ selector: 'app-root',
+  standalone: true,
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  imports: [RouterOutlet, RouterLinkActive, RouterLink],
 })
 export class AppComponent {
   title = 'shopping-realtime';

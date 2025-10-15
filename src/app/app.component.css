@@ -1,0 +1,17 @@
+nav a {
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #007bff;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+nav a:hover {
+  background-color: #e9f2ff;
+}
+
+nav a.active {
+  background-color: #007bff;
+  color: white;
+}
