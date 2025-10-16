@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.setupSignalRSubscriptions()
-    this.signalR.startConnection('https://shoppingrealtime-api.onrender.com')
+    this.signalR.startConnection()
       .then(() => this.setupSignalRSubscriptions())
       .catch(e => console.warn('SignalR start failed', e));
   }

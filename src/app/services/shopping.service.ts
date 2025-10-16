@@ -3,16 +3,17 @@ import { HttpClient } from '@angular/common/http';
 import { ShoppingItem } from '../models/shopping-item';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { SignalRService } from './signalr.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ShoppingService {
-  private apiRoot = 'https://shoppingrealtime-api.onrender.com'; // adjust to your backend
+  private apiRoot = environment.apiUrl; // adjust to your backend
   private items$ = new BehaviorSubject<ShoppingItem[]>([]);
   itemsObservable$ = this.items$.asObservable();
 
   constructor(private http: HttpClient, private signalR: SignalRService) {
     // initialize SignalR and subscribe to events
-    this.signalR.startConnection(this.apiUrl())
+    this.signalR.startConnection()
       .then(() => this.setupSignalRSubscriptions())
       .catch(e => console.warn('SignalR start failed', e));
   }

@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { Subject, Observable } from 'rxjs';
 import { ShoppingItem } from '../models/shopping-item';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class SignalRService {
-  public  hubConnection?: signalR.HubConnection;
+  public hubConnection?: signalR.HubConnection;
 
   private itemAddedSource = new Subject<ShoppingItem>();
   itemAdded$ = this.itemAddedSource.asObservable();
@@ -19,10 +20,13 @@ export class SignalRService {
   private summaryUpdatedSource = new Subject<{ total: number; completed: number; pending: number }>();
   summaryUpdated$ = this.summaryUpdatedSource.asObservable();
 
-  startConnection(apiRoot: string) {
-    const hubUrl = `${apiRoot.replace(/\/$/, '')}/api/hubs/shopping`; // e.g. http://localhost:5000/hubs/shopping
+  startConnection() {
+    const hubUrl = environment.hubUrl; // e.g. http://localhost:5000/hubs/shopping
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(hubUrl, { withCredentials: true })
+      .withUrl(hubUrl, {
+        accessTokenFactory: () => localStorage.getItem('token') || '',
+        transport: signalR.HttpTransportType.WebSockets
+      })
       .withAutomaticReconnect()
       .build();
 
